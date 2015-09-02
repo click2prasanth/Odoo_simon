@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+    <record id="view_ncr_graph" model="ir.ui.view">
+         <field name="name">ncr.report.graph</field>
+         <field name="model">ncr</field>
+         <field name="arch" type="xml">
+             <graph string="NCR Analysis" type="pivot" stacked="True">
+                 <field name="name"/>
+                 <field name="production_id"/>
+                 <field name="product_id"/>
+                 <field name="rejected_by"/>
+                 <field name="reject_date"/>
+                 <field name="cause_category"/>
+                 <field name="responsible_remedial_action_id"/>
+                 <field name="severity"/>
+             </graph>
+         </field>
+    </record>
+    <record id="view_ncr_report_tree" model="ir.ui.view">
+            <field name="name">ncr.report.tree</field>
+            <field name="model">ncr</field>
+            <field name="priority">2</field>
+            <field name="arch" type="xml">
+                <tree string="Ncr Report" >
+                    <field name="name"/>
+                 <field name="production_id"/>
+                 <field name="product_id"/>
+                 <field name="rejected_by"/>
+                 <field name="reject_date"/>
+                 <field name="cause_category"/>
+                 <field name="responsible_remedial_action_id"/>
+                 <field name="severity"/>
+                </tree>
+            </field>
+        </record>
+        
+        
+<!--<record id="filter_by_state" model="ir.filters">
+        <field name="name"> By State </field>
+        <field name="model_id">mrp.production</field>
+        <field name="user_id" eval="False"/>
+        <field name="context">{'group_by':['state']}</field>
+        </record>-->
+        
+
+    <record id="action_ncr_report_all" model="ir.actions.act_window">
+        <field name="name">NCR Analysis</field>
+        <field name="res_model">ncr</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">graph</field>
+        <field name="tree_view_id" ref="view_ncr_report_tree"/>
+        <field name="view_id" ref="view_ncr_graph"/>
+<!--        <field name="context">{'search_default_Sales':1, 'group_by_no_leaf':1,'group_by':[]}</field>-->
+        <field name="help">This report performs analysis on your quotations and sales orders. Analysis check your sales revenues and sort it by different group criteria (salesman, partner, product, etc.) Use this report to perform analysis on sales not having invoiced yet. If you want to analyse your turnover, you should use the Invoice Analysis report in the Accounting application.</field>
+    </record>
+<!--   <menuitem id="manufacture_parent_report_menu" name="Manufacturing" parent="base.menu_reporting" sequence="5"/>-->
+
+    <menuitem action="action_ncr_report_all" id="menu_report_ncr_all" parent="manufacture_parent_report_menu" sequence="5" />
+
+
+</data>
+</openerp>
