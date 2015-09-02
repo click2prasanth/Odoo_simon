@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+    <record id="view_manufacturing_graph" model="ir.ui.view">
+         <field name="name">manufacturing.report.graph</field>
+         <field name="model">mrp.production</field>
+         <field name="arch" type="xml">
+             <graph string="Manufacturing Analysis" type="pivot" stacked="True">
+                 <field name="name"/>
+                 <field name="user_id"/>
+                 <field name="product_id"/>
+                 <field name="product_qty"/>
+                 <field name="date_planned"/>
+             </graph>
+         </field>
+    </record>
+<!--        <record id="view_manufacturing_tree" model="ir.ui.view">
+            <field name="name">manufacturing.report.tree</field>
+            <field name="model">mrp.production</field>
+            <field name="priority">2</field>
+            <field name="arch" type="xml">
+                <tree string="Ncr Report" >
+                 <field name="name"/>
+                 <field name="user_id"/>
+                 <field name="product_id"/>
+                 <field name="product_qty"/>
+                 <field name="date_planned"/>
+                </tree>
+            </field>
+        </record>-->
+    
+        <record id="filter_sale_report_salespersons" model="ir.filters">
+        <field name="name">By Customer</field>
+        <field name="model_id">mrp.production</field>
+        <field name="user_id" eval="False"/>
+        <field name="context">{'group_by':['user_id']}</field>
+    </record>
+        
+        <record id="filter_by_product" model="ir.filters">
+        <field name="name"> By Product </field>
+        <field name="model_id">mrp.production</field>
+        <field name="user_id" eval="False"/>
+        <field name="context">{'group_by':['product_id']}</field>
+        </record>
+<record id="filter_by_state" model="ir.filters">
+        <field name="name"> By State </field>
+        <field name="model_id">mrp.production</field>
+        <field name="user_id" eval="False"/>
+        <field name="context">{'group_by':['state']}</field>
+        </record>
+        <record id="filter_by_work_order" model="ir.filters">
+        <field name="name"> By Work Order </field>
+        <field name="model_id">mrp.production</field>
+        <field name="user_id" eval="False"/>
+        <field name="widget"> one2many_list</field>
+        <field name="context">{'group_by':['workcenter_line.name']}</field>
+        </record>
+
+    <record id="action_manufacturing_report_all" model="ir.actions.act_window">
+        <field name="name">Manufacturing Analysis</field>
+        <field name="res_model">mrp.production</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">graph,tree</field>
+<!--        <field name="search_view_id" ref="view_order_product_search"/>-->
+        <field name="view_id" ref="view_manufacturing_graph"/>
+<!--        <field name="tree_view_id" ref="view_manufacturing_tree"/>-->
+<!--        <field name="context">{'search_default_Sales':1, 'group_by_no_leaf':1,'group_by':[]}</field>-->
+        <field name="help">This report performs analysis on your quotations and sales orders. Analysis check your sales revenues and sort it by different group criteria (salesman, partner, product, etc.) Use this report to perform analysis on sales not having invoiced yet. If you want to analyse your turnover, you should use the Invoice Analysis report in the Accounting application.</field>
+    </record>
+    <menuitem id="manufacture_parent_report_menu" name="Manjufacturing" parent="base.menu_reporting" sequence="5"/>
+
+    <menuitem action="action_manufacturing_report_all" id="menu_report_manufacturing_all" parent="manufacture_parent_report_menu" sequence="10"/>
+
+
+</data>
+</openerp>
